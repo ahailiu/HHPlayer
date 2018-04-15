@@ -1,0 +1,1 @@
+config:x86:x86_64:generic:darwin:Apple LLVM version 8.1.0 (clang-802.0.42):--disable-x86asm --disable-avdevice --disable-avfilter --enable-pthreads --enable-static --enable-pic --enable-runtime-cpudetect --prefix=/Users/admin/workspace/playercore/native/ffmpeg/ffmpeg-3.4.2/../ffmpeg-dev-out --disable-linux-perf --enable-debug

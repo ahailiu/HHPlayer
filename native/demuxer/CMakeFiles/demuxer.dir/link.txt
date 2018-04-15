@@ -1,0 +1,2 @@
+/usr/bin/ar cr libdemuxer.a  CMakeFiles/demuxer.dir/src/FFmpegDemuxer.cpp.o
+/usr/bin/ranlib libdemuxer.a
