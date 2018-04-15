@@ -1,0 +1,2 @@
+/Users/admin/workspace/playercore/native/utils/CMakeFiles/utils.dir
+/Users/admin/workspace/playercore/native/utils/CMakeFiles/utilsDemo.dir
