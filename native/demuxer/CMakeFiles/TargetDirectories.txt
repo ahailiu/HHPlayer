@@ -1,2 +1,0 @@
-/Users/admin/workspace/playercore/native/demuxer/CMakeFiles/demuxer.dir
-/Users/admin/workspace/playercore/native/demuxer/CMakeFiles/demuxerDemo.dir
