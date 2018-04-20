@@ -22,6 +22,8 @@
 #include "DecoderBase.h"
 #include "libavcodec/avcodec.h"
 
+typedef struct _HHFrame HHFrame;
+
 class SoftwareDecoder : public DecoderBase {
     public:
         SoftwareDecoder(); 
@@ -43,6 +45,8 @@ class SoftwareDecoder : public DecoderBase {
         AVCodec        *mCodec;
         AVCodecContext *mCodecCtx;
         bool            mCodecOpened;
+
+        BlockQueue     *mQueue;
 };
 
 #endif

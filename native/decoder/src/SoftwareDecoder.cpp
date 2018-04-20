@@ -46,8 +46,12 @@ void SoftwareDecoder::_stop()
     }
 }
 
-int SoftwareDecoder::start(enum CodecID cid)
+int SoftwareDecoder::start(enum CodecID cid, int bufFrames)
 {
+    mQueue = new BlockQueue(bufFrames);
+    if (!mQueue)
+        return -1;
+
     enum AVCodecID id;
 
     switch(cid) {
@@ -64,7 +68,6 @@ int SoftwareDecoder::start(enum CodecID cid)
             return -1;
             break;
     }
-
 
     mCodec = avcodec_find_decoder(id);
     if (!mCodec) {
@@ -125,20 +128,95 @@ int SoftwareDecoder::sendPacket(const uint8_t *buf,
     return 0;
 }
 
-int SoftwareDecoder::recvFrame()
+#define DEQUEUE_VIDEO_INTERVAL 10
+
+int SoftwareDecoder::recvFrame(int64_t timeoutMs)
 {
     if (!mCodecOpened) {
         return -2;
     }
 
-    AVFrame frame;
-    int ret = avcodec_receive_frame(avctx, AVFrame *frame);
-    return 0;
+    AVFrame *frame = NULL;
+    int ret = mQueue->PopEmpty((void **)&frame, timeoutMs);
+    if (ret < 0) {
+        if (ret == -1)
+            ret = -1;
+        else 
+            ret = -3;
+
+        goto err;
+    }
+
+    if (frame == NULL) {
+        frame = av_frame_alloc():
+    }
+
+    if (timeoutMs < 0) {
+        timeoutMs = LONG_MAX;
+    }
+
+    ret = 0;
+    while (timeoutMs < 0) {
+        ret = avcodec_receive_frame(avctx, frame);
+        if (ret < 0) {
+            if (ret == AVERROR(EAGAIN)) {
+                timeoutMs -= DEQUEUE_VIDEO_INTERVAL;
+                if (timeoutMs >= 0)
+                    usleep(DEQUEUE_VIDEO_INTERVAL*1000);
+            } else {
+                // TODO frame 处理.
+                ret = -3;
+                goto err;             
+            }
+        } else if (ret == 0)
+            break;
+    }
+
+    if (ret == AVERROR(EAGAIN)) {
+        ret = mQueue->PushEmpty((void *)frame, timeoutMs);
+        if (ret < 0) { 
+            // never;
+            ret = -3;
+        } else {
+            ret = -1; 
+        }
+
+        goto err;
+    }
+
+    // 这里必须是可push.
+    ret = mQueue->PushFill((void *)frame, timeoutMs);
+    if (ret < 0) {
+        // never
+        ret = -3;
+    }
+
+err:
+    return ret;
 }
 
-void SoftwareDecoder::releaseFrame(int index)
+int SoftwareDecoder::releaseFrame(int timeoutMs)
 {
-    return ;
+    if (!mCodecOpened) {
+        return -2;
+    }    
+
+    AVFrame *frame = NULL;
+    int ret = mQueue->popFill((void **)&frame, timeoutMs);
+    if (ret < 0) {
+        if (ret != -1) {
+            ret = -3;
+        }
+
+        goto err;
+    }
+
+    if (frame->pts) {
+        
+    }
+
+err:
+    return ret;
 }
 
 void SoftwareDecoder::stop()

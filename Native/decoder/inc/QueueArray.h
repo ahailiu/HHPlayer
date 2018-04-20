@@ -16,34 +16,35 @@
  * =====================================================================================
  */
 
-#ifndef _LIST_H_
-#define _LIST_H_
+#ifndef _QUEUEARRAY_H_
+#define _QUEUEARRAY_H_
+
+typedef struct _Entry Entry;
 
 struct _Entry {
-   struct _Entry *next; 
-   struct _Entry *prev; 
-
-   uint32_t  index;
    void *data;
 };
 
-class List {
+class QueueArray {
     private:
-        struct _Entry *mHead;
-        struct _Entry *mTail;
-
+        Entry *mEntryArray;
         uint32_t mCapSize;
-        uint32_t mSize;
+        uint64_t mWIndex;
+        uint64_t mRIndex;
+
+    private:
+        uint32_t _queueSize();
+        uint32_t _queueSpace();
 
     public:
-        List(uint32_t maxSize);
-        ~ List();
+        QueueArray(uint32_t cap);
+        ~ QueueArray();
         
-        struct _Entry* listPop();
-        uint32_t listSize();
-        uint32_t listSpace();
+        uint32_t queueSize();
+        uint32_t queueSpace();
 
-        int listPush(struct _Entry* entry);
+        void* queuePop();
+        int   queuePush(void *data);
 };
 
 #endif
