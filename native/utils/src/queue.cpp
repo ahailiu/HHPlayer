@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  queue.c
+ *       Filename:  list.cpp
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  2018/04/12 23时13分23秒
+ *        Created:  2018/04/14 15时20分07秒
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -15,66 +15,67 @@
  *
  * =====================================================================================
  */
+
 #include <stdlib.h>
 
-#include "queue.h"
+#include "Queue.h"
 
-Queue::Queue(int size)
-:mQueueSize(size)
-,mWIndex(0)
-,mRIndex(0)
+Queue::Queue(uint32_t size)
+:mHead(NULL)
+,mTail(NULL)
+,mCapSize(size)
+,mSize(0)
 {
-    mEntry = (Entry *)calloc(1, sizeof(Entry) * size);
-    if (!mEntry) {
-        //TODO
-        //abort();
-    }
 
-    for (int i=0; i<size; i++) {
-       mEntry[i].index = i;
-    }
 }
 
 Queue::~Queue()
 {
-    free(mEntry);
 }
 
-int Queue::queueSpace()
+Entry* Queue::queuePop()
 {
-    return (mQueueSize - mWIndex);
+    if (!mSize)
+        return NULL;
+
+    Entry *entry = mHead;
+
+    mHead = mHead->next;
+    if (mHead != NULL)
+        mHead->prev = NULL;
+    else
+        mTail = NULL;
+
+    mSize --;
+    return entry;
 }
 
-int Queue::queuePush(void *data)
+uint32_t Queue::queueSize()
 {
-    if (mWIndex >= mQueueSize) {
-        // never
+    return mSize; 
+}
+
+uint32_t Queue::queueSpace()
+{
+    return mCapSize - mSize;
+}
+
+int Queue::queuePush(Entry *entry)
+{
+    if (mSize >= mCapSize) {
         return -1;
     }
 
-    mEntry[mWIndex ++].data = data;
-    return 0;
-}
-
-int Queue::queueSize()
-{
-    return (mWIndex - mRIndex);
-}
-
-void Queue::queueReset()
-{
-    mWIndex = mRIndex = 0;
-}
-
-void* Queue::queuePop()
-{
-    if (mRIndex >= mQueueSize) {
-        // never
-        return NULL;
+    entry->next = entry->prev = NULL;
+    if (!mHead) {
+        mHead = mTail = entry;
+        mSize ++;
+        return 0;
     }
 
-    void *data = mEntry[mRIndex].data;    
-    mEntry[mRIndex ++].data = NULL;
-    return data;
-
+    entry->prev = mTail;
+    mTail->next = entry;
+    mTail = entry;
+    mSize ++;
+    return 0;
 }

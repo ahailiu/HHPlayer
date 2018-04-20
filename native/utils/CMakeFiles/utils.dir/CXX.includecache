@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,11 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/Users/admin/workspace/playercore/native/utils/src/list.cpp
+/Users/ahailiu/workspace/HHPlayer/native/utils/src/BlockQueue.cpp
 stdlib.h
 -
-list.h
-/Users/admin/workspace/playercore/native/utils/src/list.h
+errno.h
+-
+sys/time.h
+-
+BlockQueue.h
+/Users/ahailiu/workspace/HHPlayer/native/utils/src/BlockQueue.h
 
-inc/list.h
+/Users/ahailiu/workspace/HHPlayer/native/utils/src/QueueArray.cpp
+stdlib.h
+-
+QueueArray.h
+/Users/ahailiu/workspace/HHPlayer/native/utils/src/QueueArray.h
+
+inc/BlockQueue.h
+pthread.h
+-
+QueueArray.h
+inc/QueueArray.h
+
+inc/QueueArray.h
 

@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,13 +6,25 @@
 
 #IncludeRegexTransform: 
 
-/Users/admin/workspace/playercore/native/utils/demo/main2.cpp
+/Users/ahailiu/workspace/HHPlayer/native/utils/demo/main.cpp
 stdlib.h
+-
+unistd.h
 -
 stdio.h
 -
-list.h
-/Users/admin/workspace/playercore/native/utils/demo/list.h
+pthread.h
+-
+string.h
+-
+BlockQueue.h
+/Users/ahailiu/workspace/HHPlayer/native/utils/demo/BlockQueue.h
 
-inc/list.h
+inc/BlockQueue.h
+pthread.h
+-
+QueueArray.h
+inc/QueueArray.h
+
+inc/QueueArray.h
 

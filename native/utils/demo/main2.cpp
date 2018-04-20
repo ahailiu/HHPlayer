@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "list.h"
+#include "BlockQueue.h"
 
 int main(void)
 {

@@ -1,2 +1,2 @@
-/usr/bin/ar cr lib/libutils.a  CMakeFiles/utils.dir/src/doubleQueue.cpp.o CMakeFiles/utils.dir/src/queue.cpp.o CMakeFiles/utils.dir/src/list.cpp.o
-/usr/bin/ranlib lib/libutils.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc lib/libutils.a  CMakeFiles/utils.dir/src/BlockQueue.cpp.o CMakeFiles/utils.dir/src/QueueArray.cpp.o
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib lib/libutils.a

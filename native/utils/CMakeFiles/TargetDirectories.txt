@@ -1,2 +1,4 @@
-/Users/admin/workspace/playercore/native/utils/CMakeFiles/utils.dir
-/Users/admin/workspace/playercore/native/utils/CMakeFiles/utilsDemo.dir
+/Users/ahailiu/workspace/HHPlayer/native/utils/CMakeFiles/rebuild_cache.dir
+/Users/ahailiu/workspace/HHPlayer/native/utils/CMakeFiles/edit_cache.dir
+/Users/ahailiu/workspace/HHPlayer/native/utils/CMakeFiles/utilsDemo.dir
+/Users/ahailiu/workspace/HHPlayer/native/utils/CMakeFiles/utils.dir

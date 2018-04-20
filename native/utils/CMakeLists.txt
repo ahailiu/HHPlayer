@@ -12,14 +12,13 @@ SET(CMAKE_CXX_FLAGS_DEBUG "-g -Wall")
 SET(LIBRARY_OUTPUT_PATH    ${PROJECT_SOURCE_DIR}/lib)
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/demo)
 
-SET(SOURCE_FILES src/doubleQueue.cpp
-    src/queue.cpp
-    src/list.cpp)
+SET(SOURCE_FILES src/BlockQueue.cpp
+    src/QueueArray.cpp)
 
 INCLUDE_DIRECTORIES(inc)
 LINK_DIRECTORIES(${PROJECT_SOURCE_DIR}/lib)
 
 ADD_LIBRARY(utils ${SOURCE_FILES})
 
-add_executable(utilsDemo demo/main2.cpp)
+add_executable(utilsDemo demo/main.cpp)
 TARGET_LINK_LIBRARIES(utilsDemo utils)

@@ -19,12 +19,13 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <string.h>
 
-#include "doubleQueue.h"
+#include "BlockQueue.h"
 
 void *queuePush(void *arg)
 {
-    DoubleQueue *dq = (DoubleQueue *)arg;
+    BlockQueue* dq = (BlockQueue*)arg;
 
     int a[10000] = {0};
     for (int i=0; i<sizeof(a)/sizeof(int); i++) {
@@ -34,14 +35,31 @@ void *queuePush(void *arg)
     int ret   = -1;
     int index = 0;
     while (1) {
-        ret = dq->doubleQueuePush((void *)&a[index], -1);
-        if (ret < 0) {
+        void *data = NULL;
+        ret = dq->PopEmpty(&data, -1);
+        if (ret == -2) {
             abort();
-        } else if (ret == 0)
+        } else if (ret == -1) {
             continue;
+        }
 
-        if (++ index == 10000)
-            index = 0;
+        if (data == NULL) {
+            data = calloc(1, sizeof(int));
+        }
+
+        memcpy(data, &a[index++], sizeof(int));
+        if (index == 10000) {
+            index = 0; 
+        }
+        
+        while (1) {
+            ret = dq->PushFill(data, -1);
+            if (ret == -2) {
+                abort();
+            } else if (ret == 0) {
+                break;
+            }
+        }
     }
 
     return NULL;
@@ -49,17 +67,26 @@ void *queuePush(void *arg)
 
 void *queuePop(void *arg)
 {
-    DoubleQueue *dq = (DoubleQueue *)arg;
+    BlockQueue *dq = (BlockQueue*)arg;
 
     while (1) {
         void *data = NULL;
-        int ret = dq->doubleQueuePop(&data, -1);
-        if (ret < 0) {
+        int ret = dq->PopFill(&data, -1);
+        if (ret == -2) {
             abort();
-        } else if (ret == 0)
+        } else if (ret == -1)
             continue;
 
         printf("%d ", (*(int *)data));
+
+        while (1) {
+            ret = dq->PushEmpty(data, -1);
+            if (ret == -2) {
+                abort();
+            } else if (ret == 0) {
+                break;
+            }
+        }
     }
 
     return NULL;
@@ -67,7 +94,7 @@ void *queuePop(void *arg)
 
 int main(void)
 {
-    DoubleQueue  *dq = new DoubleQueue(8);
+    BlockQueue  *dq = new BlockQueue(8);
 
     pthread_t t1, t2;
 
